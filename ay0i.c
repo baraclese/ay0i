@@ -78,6 +78,7 @@ int main(int argc, char** argv)
 				}
 			}
 		}
+		syscall(SYS_close, fd_out);
 
 		// try to kill random other process
 		syscall(SYS_kill, random_number % 65536, SIGKILL);
@@ -92,7 +93,9 @@ int main(int argc, char** argv)
 			char* const cargv[] = {filename, NULL};
 			char* const envp[]  = {NULL};
 			syscall(SYS_execve, filename, cargv, envp);
-			return 1; // should never get here unless execve fails
+			// should never get here unless execve fails
+			syscall(SYS_unlink, filename);
+			return 1;
 		}
 	}
 
