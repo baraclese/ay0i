@@ -26,10 +26,10 @@ newuser hard cpu 1
 newuser hard nproc 300
     ```
 
-These settings help your computer to stay responsive during the experiment. If you switch to newuser via the su command then you also need to add the following line to the file /etc/pam.d/su:
+    These settings help your computer to stay responsive during the experiment. If you switch to newuser via the su command then you also need to add the following line to the file /etc/pam.d/su:
 
     ```
-session required pam_limits.so
+    session required pam_limits.so
     ```
 
 6. Compile the program.
