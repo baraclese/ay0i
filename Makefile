@@ -5,7 +5,6 @@ CFLAGS=-Os -s -nostdlib -fno-stack-protector -Wall -std=c11 \
 
 ay0i: ay0i.o substart.S syscall.S
 	$(CC) $(CFLAGS) -o ay0i ay0i.c substart.S syscall.S
-	strip -R=".comment" ay0i
 
 clean:
 	rm -f *.o ay0i
