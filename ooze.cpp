@@ -156,7 +156,7 @@ int ooze::read(const char* path, char* buf, size_t count, off_t pos, struct fuse
         return -EBADF;
 
     count = std::min(count, file.data.size() - pos);
-    std::copy(file.data.cbegin() + pos, file.data.cend() + pos + count, buf);
+    std::copy(file.data.cbegin() + pos, file.data.cbegin() + pos + count, buf);
 
     return count;
 }
@@ -238,6 +238,13 @@ int ooze::chmod(const char* path, mode_t m)
 
 int ooze::chown(const char* path, uid_t uid, gid_t gid)
 {
+    if (strcmp(path, "/") == 0)
+    {
+        // Cannot change owner of mountpoint from within ooze.
+        // Instead mount with the options "-o uid=x,gid=y"
+        return 0;
+    }
+
     auto it = self_->pathlookup_.find(&path[1]);
     if (it != self_->pathlookup_.end())
     {
